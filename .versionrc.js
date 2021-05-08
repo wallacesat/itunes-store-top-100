@@ -1,5 +1,3 @@
-const tasks = (arr) => arr.join(' && ');
-
 module.exports = {
   header: 'iTunes Store Top 100 - Changelog',
   types: [
