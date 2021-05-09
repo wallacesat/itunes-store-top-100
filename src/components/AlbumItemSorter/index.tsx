@@ -10,7 +10,6 @@ import { AlbumItemSorterProps } from './types';
 
 const AlbumItemSorter: React.FC<AlbumItemSorterProps> = ({
   isByAlbum,
-  isByArtist,
   isDescOrder,
   handleSortByAlbum,
   handleSortByArtist,
@@ -42,10 +41,10 @@ const AlbumItemSorter: React.FC<AlbumItemSorterProps> = ({
           <Label>Artist</Label>
           <FontAwesomeIcon
             icon={
-              isDescOrder && isByArtist ? faLongArrowAltUp : faLongArrowAltDown
+              isDescOrder && !isByAlbum ? faLongArrowAltUp : faLongArrowAltDown
             }
             size="1x"
-            className={isByArtist ? 'text-info' : 'text-neutral-medium'}
+            className={!isByAlbum ? 'text-info' : 'text-neutral-medium'}
           />
         </div>
       </button>

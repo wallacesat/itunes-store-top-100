@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { find, map, sortBy } from 'lodash';
+import { find, map } from 'lodash';
 
 import AlbumItem from '~/components/AlbumItem';
 import SearchBar from '~/components/SearchBar';
@@ -12,12 +12,12 @@ import MainPage from '~/components/MainPage';
 import AlbunEvidenceSection from '~/components/AlbunEvidenceSection';
 import AlbumListSection from '~/components/AlbumListSection';
 import AlbumList from '~/components/AlbumList';
-import { useStorage } from '~/contexts/StorageContext';
+import { useAlbums } from '~/contexts/AlbumsContext';
 import useFavorites from '~/hooks/useFavorites';
 
 const Home: React.FC = () => {
-  const { albuns, isFetched } = useStorage();
-  const { addFavorite, removeFavorite, favorites, isFavorite } = useFavorites();
+  const { albuns, isFetched, sortedAlbumsInfo, sortAlbuns } = useAlbums();
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   const [
     albumInEvidence,
@@ -29,6 +29,10 @@ const Home: React.FC = () => {
       setAlbumInEvidence(albuns[0]);
     }
   }, [isFetched, albuns, albumInEvidence]);
+
+  React.useEffect(() => {
+    setAlbumInEvidence(albuns[0]);
+  }, [albuns]);
 
   function handleClickFavorite(id: string) {
     if (isFavorite(id)) {
@@ -66,9 +70,18 @@ const Home: React.FC = () => {
             <SearchBar />
             <AlbumListHeader />
             <AlbumList>
-              <AlbumItemSorter />
+              <AlbumItemSorter
+                isByAlbum={sortedAlbumsInfo.sortedBy === 'album'}
+                isDescOrder={sortedAlbumsInfo.isDescOrder}
+                handleSortByAlbum={() =>
+                  sortAlbuns(!sortedAlbumsInfo.isDescOrder, 'album')
+                }
+                handleSortByArtist={() =>
+                  sortAlbuns(!sortedAlbumsInfo.isDescOrder, 'artist')
+                }
+              />
               <div className="album-list">
-                {map(sortBy(albuns, ['name']), album => {
+                {map(albuns, album => {
                   return (
                     <AlbumItem
                       id={album.id}
