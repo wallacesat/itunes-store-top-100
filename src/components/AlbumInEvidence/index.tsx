@@ -1,7 +1,8 @@
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import * as React from 'react';
 import FavoriteButton from '../FavoriteButton';
-import InfoButton from '../InfoButton';
 import Label from '../Label';
+import RoundedButton from '../RoundedButton';
 
 import { AlbumInEvidenceProps } from './types';
 
@@ -25,7 +26,7 @@ const AlbumInEvidence: React.FC<AlbumInEvidenceProps> = ({
           isFavorite={isFavorite}
           handleClickFavorite={() => handleClickFavorite(album.id)}
         />
-        <InfoButton />
+        <RoundedButton icon={faInfoCircle} iconSize="1x" label="info" />
       </div>
       <div className="flex flex-col items-center justify-center">
         <Label className="mb-2 text-lg font-extralight">{album.name}</Label>

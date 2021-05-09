@@ -2,9 +2,19 @@ import * as React from 'react';
 
 import { LabelProps } from './types';
 
-const Label: React.FC<LabelProps> = ({ children, className }) => {
+const Label: React.FC<LabelProps> = ({
+  children,
+  className,
+  textColorClass,
+}) => {
   return (
-    <p className={`text-sm text-neutral-medium ${className}`}>{children}</p>
+    <p
+      className={`text-sm ${className} ${
+        !textColorClass ? 'text-neutral-medium' : textColorClass
+      }`}
+    >
+      {children}
+    </p>
   );
 };
 

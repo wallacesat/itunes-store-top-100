@@ -7,26 +7,32 @@ import { useAlbums } from '~/contexts/AlbumsContext';
 import { ItunesStoreTop100Data } from '~/service/itunesStore/types';
 
 type useSearchAlbumReturn = {
-  searchAlbum: (query: string) => ItunesStoreTop100Data[];
+  searchAlbum: (
+    query: string,
+    albunsList?: ItunesStoreTop100Data[],
+  ) => ItunesStoreTop100Data[];
 };
 
 export const useSearchAlbum = (): useSearchAlbumReturn => {
   const { albuns } = useAlbums();
 
-  const albumsCopy = React.useMemo(() => {
-    return new Array(...albuns);
-  }, [albuns]);
+  const albumsCopy = React.useCallback(
+    (albunsList: ItunesStoreTop100Data[]) => {
+      return new Array(...albunsList);
+    },
+    [],
+  );
 
   const searchAlbum = React.useCallback(
-    (query: string) => {
+    (query: string, albunsList: ItunesStoreTop100Data[]) => {
       return filter(
-        albumsCopy,
+        albumsCopy((albunsList || []).length ? albunsList : albuns),
         album =>
           album.name.toLowerCase().includes(query.toLowerCase()) ||
           album.artist.name.toLowerCase().includes(query.toLowerCase()),
       );
     },
-    [albumsCopy],
+    [albumsCopy, albuns],
   );
 
   return {
