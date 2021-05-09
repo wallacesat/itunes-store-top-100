@@ -1,5 +1,5 @@
 # .github/workflows/main.yml
-name: CI
+name: CI - PROD
 on:
   push:
     branches: [ main ]
