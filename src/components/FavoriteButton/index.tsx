@@ -8,6 +8,7 @@ import { FavoriteButtonProps } from './types';
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   handleClickFavorite,
   isFavorite,
+  iconClass,
 }) => {
   return (
     <div className="w-14 h-14 flex justify-center items-center mr-4">
@@ -16,7 +17,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         size="lg"
         className={`cursor-pointer ${
           isFavorite ? 'text-secondary-medium' : 'text-neutral-medium'
-        }`}
+        } ${iconClass}`}
         onClick={handleClickFavorite}
       />
     </div>

@@ -1,10 +1,12 @@
-import React from 'react';
-import Label from '../Label';
+import * as React from 'react';
 
-const AlbumNotFound: React.FC = () => {
+import Label from '../Label';
+import { AlbumNotFoundProps } from './types';
+
+const AlbumNotFound: React.FC<AlbumNotFoundProps> = ({ label }) => {
   return (
     <div className="bg-primary-medium flex py-4 justify-center rounded-b-lg">
-      <Label className="text-xl">Album not found...</Label>
+      <Label className="text-xl">{label}</Label>
     </div>
   );
 };
