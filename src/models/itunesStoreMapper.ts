@@ -4,7 +4,6 @@ import {
   ItunesStoreTop100,
   ItunesStoreTop100Artist,
   ItunesStoreTop100Data,
-  ItunesStoreTop100Image,
 } from '~/service/itunesStore/types';
 
 const intunesStoreTop100Mapper = ({ data }): ItunesStoreTop100 => {
@@ -16,13 +15,9 @@ const intunesStoreTop100Mapper = ({ data }): ItunesStoreTop100 => {
     entry: map(entry || [], album => {
       const parsedAlbum = {
         name: String(album['im:name'].label),
-        image: map(
-          album['im:image'],
-          img =>
-            ({
-              uri: String(img.label),
-              height: String(img.attributes.height),
-            } as ItunesStoreTop100Image),
+        image: String(
+          (album['im:image'][2] || album['im:image'][1] || album['im:image'][0])
+            .label,
         ),
         price: String(album['im:price'].label),
         rights: String(album.rights.label),
@@ -35,6 +30,11 @@ const intunesStoreTop100Mapper = ({ data }): ItunesStoreTop100 => {
             ? String(album['im:artist'].attributes.href)
             : '',
         } as ItunesStoreTop100Artist,
+        category: {
+          id: String(album.category.attributes['im:id']),
+          name: String(album.category.attributes.label),
+          link: String(album.category.attributes.scheme),
+        },
       } as ItunesStoreTop100Data;
 
       return parsedAlbum;

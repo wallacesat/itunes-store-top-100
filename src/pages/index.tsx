@@ -91,14 +91,14 @@ const Home: React.FC = () => {
       <BgImage />
       <AlbunEvidenceSection>
         <div className="flex items-center justify-center">
-          {albumsList.length ? (
+          {(showFavorites || searchAlbumsQuery) && !albumsList.length ? (
+            <LottieNotFound />
+          ) : (
             <AlbumInEvidence
               album={albumInEvidence}
               handleClickFavorite={handleClickFavorite}
               isFavorite={isFavorite((albumInEvidence || {}).id)}
             />
-          ) : (
-            <LottieNotFound />
           )}
         </div>
       </AlbunEvidenceSection>
@@ -123,16 +123,21 @@ const Home: React.FC = () => {
                   handleSortByArtist={handleSortByArtist}
                 />
               ) : null}
-              {!albumsList.length && <AlbumNotFound />}
+              {(showFavorites || searchAlbumsQuery) && !albumsList.length && (
+                <AlbumNotFound
+                  label={
+                    showFavorites && !searchAlbumsQuery
+                      ? 'Favorites list ampty...'
+                      : 'Album not found...'
+                  }
+                />
+              )}
               <div className="album-list">
                 {map(albumsList, album => {
                   return (
                     <AlbumItem
-                      id={album.id}
-                      img={album.image[2].uri}
-                      albumName={album.name}
-                      artistName={album.artist.name}
-                      price={album.price}
+                      key={album.id}
+                      album={album}
                       handleClickFavorite={handleClickFavorite}
                       handleClickAlbum={handleClickAlbum}
                       isFavorite={isFavorite(album.id)}
