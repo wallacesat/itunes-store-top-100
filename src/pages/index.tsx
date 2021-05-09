@@ -14,10 +14,23 @@ import AlbumListSection from '~/components/AlbumListSection';
 import AlbumList from '~/components/AlbumList';
 import { useAlbums } from '~/contexts/AlbumsContext';
 import useFavorites from '~/hooks/useFavorites';
+import useSearchAlbum from '~/hooks/useSearchAlbum';
+import AlbumNotFound from '~/components/AlbumNotFound';
+import LottieNotFound from '~/components/LottieNotFound';
+import BgImage from '~/components/BgImage';
+import useSortAlbums from '~/hooks/useSorteAlbums';
 
 const Home: React.FC = () => {
-  const { albuns, isFetched, sortedAlbumsInfo, sortAlbuns } = useAlbums();
-  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const { albuns, isFetched } = useAlbums();
+  const { addFavorite, removeFavorite, isFavorite, favorites } = useFavorites();
+  const { searchAlbum } = useSearchAlbum();
+  const { sortAlbuns, sortedAlbumsInfo } = useSortAlbums();
+
+  const [searchAlbumsQuery, setSearchAlbumQuery] = React.useState('');
+  const [showFavorites, setShowFavorites] = React.useState(false);
+  const [albumsList, setAlmbumsList] = React.useState<ItunesStoreTop100Data[]>(
+    [],
+  );
 
   const [
     albumInEvidence,
@@ -25,14 +38,30 @@ const Home: React.FC = () => {
   ] = React.useState<ItunesStoreTop100Data>();
 
   React.useEffect(() => {
-    if (!albumInEvidence && isFetched && albuns) {
-      setAlbumInEvidence(albuns[0]);
+    if (!albumInEvidence && isFetched && albumsList) {
+      setAlbumInEvidence(albumsList[0]);
     }
-  }, [isFetched, albuns, albumInEvidence]);
+  }, [isFetched, albumsList, albumInEvidence]);
 
   React.useEffect(() => {
-    setAlbumInEvidence(albuns[0]);
-  }, [albuns]);
+    setAlbumInEvidence(albumsList[0]);
+  }, [albumsList]);
+
+  React.useEffect(() => {
+    if (!showFavorites) {
+      setAlmbumsList(
+        searchAlbumsQuery ? searchAlbum(searchAlbumsQuery) : albuns,
+      );
+    } else if (favorites.length) {
+      setAlmbumsList(
+        searchAlbumsQuery
+          ? searchAlbum(searchAlbumsQuery, favorites)
+          : favorites,
+      );
+    } else {
+      setAlmbumsList([]);
+    }
+  }, [showFavorites, searchAlbumsQuery, favorites, albuns, searchAlbum]);
 
   function handleClickFavorite(id: string) {
     if (isFavorite(id)) {
@@ -46,42 +75,57 @@ const Home: React.FC = () => {
     setAlbumInEvidence(find(albuns, album => album.id === id));
   }
 
+  function handleSortByAlbum() {
+    setAlmbumsList(
+      sortAlbuns(albumsList, !sortedAlbumsInfo.isDescOrder, 'album'),
+    );
+  }
+  function handleSortByArtist() {
+    setAlmbumsList(
+      sortAlbuns(albumsList, !sortedAlbumsInfo.isDescOrder, 'artist'),
+    );
+  }
+
   return (
     <MainPage>
-      <div className="absolute w-full h-full z-0">
-        <img
-          className="object-cover w-full h-full"
-          src="/images/bg_image.png"
-          alt=""
-        />
-      </div>
+      <BgImage />
       <AlbunEvidenceSection>
         <div className="flex items-center justify-center">
-          <AlbumInEvidence
-            album={albumInEvidence}
-            handleClickFavorite={handleClickFavorite}
-            isFavorite={isFavorite((albumInEvidence || {}).id)}
-          />
+          {albumsList.length ? (
+            <AlbumInEvidence
+              album={albumInEvidence}
+              handleClickFavorite={handleClickFavorite}
+              isFavorite={isFavorite((albumInEvidence || {}).id)}
+            />
+          ) : (
+            <LottieNotFound />
+          )}
         </div>
       </AlbunEvidenceSection>
       <AlbumListSection>
-        {isFetched && albuns.length && (
+        {isFetched && (
           <>
-            <SearchBar />
-            <AlbumListHeader />
+            <SearchBar
+              text={searchAlbumsQuery}
+              onChangeText={setSearchAlbumQuery}
+            />
+            <AlbumListHeader
+              isShowingFavorites={showFavorites}
+              onClickShowFavorites={() => setShowFavorites(true)}
+              onClickShowTop100={() => setShowFavorites(false)}
+            />
             <AlbumList>
-              <AlbumItemSorter
-                isByAlbum={sortedAlbumsInfo.sortedBy === 'album'}
-                isDescOrder={sortedAlbumsInfo.isDescOrder}
-                handleSortByAlbum={() =>
-                  sortAlbuns(!sortedAlbumsInfo.isDescOrder, 'album')
-                }
-                handleSortByArtist={() =>
-                  sortAlbuns(!sortedAlbumsInfo.isDescOrder, 'artist')
-                }
-              />
+              {albumsList.length ? (
+                <AlbumItemSorter
+                  isByAlbum={sortedAlbumsInfo.sortedBy === 'album'}
+                  isDescOrder={sortedAlbumsInfo.isDescOrder}
+                  handleSortByAlbum={handleSortByAlbum}
+                  handleSortByArtist={handleSortByArtist}
+                />
+              ) : null}
+              {!albumsList.length && <AlbumNotFound />}
               <div className="album-list">
-                {map(albuns, album => {
+                {map(albumsList, album => {
                   return (
                     <AlbumItem
                       id={album.id}
