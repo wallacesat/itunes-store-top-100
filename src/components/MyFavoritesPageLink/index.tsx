@@ -5,7 +5,7 @@ import Label from '../Label';
 
 const MyFavoritesPageLink: React.FC = () => {
   return (
-    <div className="flex bg-secondary-medium rounded-full py-1 pl-2 pr-4 items-center cursor-pointer">
+    <div className="flex bg-info rounded-full py-1 pl-2 pr-4 items-center cursor-pointer">
       <div>
         <FontAwesomeIcon
           icon={faHeart}
