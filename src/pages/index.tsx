@@ -19,9 +19,10 @@ import AlbumNotFound from '~/components/AlbumNotFound';
 import LottieNotFound from '~/components/LottieNotFound';
 import BgImage from '~/components/BgImage';
 import useSortAlbums from '~/hooks/useSorteAlbums';
+import LottieLoadindAlbums from '~/components/LottieLoadindAlbums';
 
 const Home: React.FC = () => {
-  const { albuns, isFetched } = useAlbums();
+  const { albuns, isFetched, isFetching } = useAlbums();
   const { addFavorite, removeFavorite, isFavorite, favorites } = useFavorites();
   const { searchAlbum } = useSearchAlbum();
   const { sortAlbuns, sortedAlbumsInfo } = useSortAlbums();
@@ -89,66 +90,71 @@ const Home: React.FC = () => {
   return (
     <MainPage>
       <BgImage />
-      <AlbunEvidenceSection>
-        <div className="flex items-center justify-center">
-          {(showFavorites || searchAlbumsQuery) && !albumsList.length ? (
-            <LottieNotFound />
-          ) : (
-            <AlbumInEvidence
-              album={albumInEvidence}
-              handleClickFavorite={handleClickFavorite}
-              isFavorite={isFavorite((albumInEvidence || {}).id)}
-            />
-          )}
-        </div>
-      </AlbunEvidenceSection>
-      <AlbumListSection>
-        {isFetched && (
-          <>
-            <SearchBar
-              text={searchAlbumsQuery}
-              onChangeText={setSearchAlbumQuery}
-            />
-            <AlbumListHeader
-              isShowingFavorites={showFavorites}
-              onClickShowFavorites={() => setShowFavorites(true)}
-              onClickShowTop100={() => setShowFavorites(false)}
-            />
-            <AlbumList>
-              {albumsList.length ? (
-                <AlbumItemSorter
-                  isByAlbum={sortedAlbumsInfo.sortedBy === 'album'}
-                  isDescOrder={sortedAlbumsInfo.isDescOrder}
-                  handleSortByAlbum={handleSortByAlbum}
-                  handleSortByArtist={handleSortByArtist}
-                />
-              ) : null}
-              {(showFavorites || searchAlbumsQuery) && !albumsList.length && (
-                <AlbumNotFound
-                  label={
-                    showFavorites && !searchAlbumsQuery
-                      ? 'Favorites list ampty...'
-                      : 'Album not found...'
-                  }
+      {(isFetching && !albumsList.length && <LottieLoadindAlbums />) || (
+        <>
+          <AlbunEvidenceSection>
+            <div className="flex items-center justify-center">
+              {(showFavorites || searchAlbumsQuery) && !albumsList.length ? (
+                <LottieNotFound />
+              ) : (
+                <AlbumInEvidence
+                  album={albumInEvidence}
+                  handleClickFavorite={handleClickFavorite}
+                  isFavorite={isFavorite((albumInEvidence || {}).id)}
                 />
               )}
-              <div className="album-list">
-                {map(albumsList, album => {
-                  return (
-                    <AlbumItem
-                      key={album.id}
-                      album={album}
-                      handleClickFavorite={handleClickFavorite}
-                      handleClickAlbum={handleClickAlbum}
-                      isFavorite={isFavorite(album.id)}
+            </div>
+          </AlbunEvidenceSection>
+          <AlbumListSection>
+            {isFetched && (
+              <>
+                <SearchBar
+                  text={searchAlbumsQuery}
+                  onChangeText={setSearchAlbumQuery}
+                />
+                <AlbumListHeader
+                  isShowingFavorites={showFavorites}
+                  onClickShowFavorites={() => setShowFavorites(true)}
+                  onClickShowTop100={() => setShowFavorites(false)}
+                />
+                <AlbumList>
+                  {albumsList.length ? (
+                    <AlbumItemSorter
+                      isByAlbum={sortedAlbumsInfo.sortedBy === 'album'}
+                      isDescOrder={sortedAlbumsInfo.isDescOrder}
+                      handleSortByAlbum={handleSortByAlbum}
+                      handleSortByArtist={handleSortByArtist}
                     />
-                  );
-                })}
-              </div>
-            </AlbumList>
-          </>
-        )}
-      </AlbumListSection>
+                  ) : null}
+                  {(showFavorites || searchAlbumsQuery) &&
+                    !albumsList.length && (
+                      <AlbumNotFound
+                        label={
+                          showFavorites && !searchAlbumsQuery
+                            ? 'Favorites list ampty...'
+                            : 'Album not found...'
+                        }
+                      />
+                    )}
+                  <div className="album-list">
+                    {map(albumsList, album => {
+                      return (
+                        <AlbumItem
+                          key={album.id}
+                          album={album}
+                          handleClickFavorite={handleClickFavorite}
+                          handleClickAlbum={handleClickAlbum}
+                          isFavorite={isFavorite(album.id)}
+                        />
+                      );
+                    })}
+                  </div>
+                </AlbumList>
+              </>
+            )}
+          </AlbumListSection>
+        </>
+      )}
     </MainPage>
   );
 };
