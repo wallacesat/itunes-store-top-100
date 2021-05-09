@@ -16,7 +16,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onChangeText, text }) => {
       </div>
       <input
         type="text"
-        className="flex flex-1 bg-transparent pl-8 py-1 rounded-md placeholder-neutral-medium text-neutral-medium focus:outline-none focus:ring-2 focus:ring-secondary-dark"
+        className="outline-none flex flex-1 bg-transparent pl-8 py-1 rounded-md placeholder-neutral-medium text-neutral-medium focus:outline-none focus:ring-2 focus:ring-secondary-dark"
         placeholder="Search..."
         onChange={e => onChangeText(e.target.value)}
         value={text}
