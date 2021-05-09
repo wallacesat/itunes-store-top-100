@@ -23,7 +23,7 @@ const AlbumItem: React.FC<AlbumItemProps> = ({
     <Main>
       <button
         type="button"
-        className="w-14 h-14 rounded-md bg-neutral-light cursor-pointer focus:outline-none"
+        className="w-14 h-14 rounded-md bg-neutral-light cursor-pointer outline-none focus:outline-none"
         onClick={() => handleClickAlbum(album.id)}
       >
         <img
