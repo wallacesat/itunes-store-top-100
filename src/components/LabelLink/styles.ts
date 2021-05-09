@@ -5,11 +5,12 @@ type ButtonWrapperProps = {
 };
 
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
+  padding: 0 1rem;
   & > button {
     position: relative;
-    white-space: nowrap;
     text-transform: lowercase;
     outline: none !important;
+    text-align: left;
 
     &:hover {
       color: ${props => props.hoverColor || '#D2D2D2'};

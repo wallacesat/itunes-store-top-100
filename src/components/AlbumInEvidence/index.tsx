@@ -54,8 +54,8 @@ const AlbumInEvidence: React.FC<AlbumInEvidenceProps> = ({
         >
           {album.artist.name}
         </LabelLink>
-        <Label className="border-t border-b mb-6 pb-3 border-neutral-darkest mt-6 pt-3">{`Price: ${album.price}`}</Label>
-        <Label className="text-center text-xs font-extralight max-w-sm">{`${album.rights}`}</Label>
+        <Label className="border-t border-b my-2 py-2 md:mb-6 md:pb-3 border-neutral-lightest md:border-neutral-darkest md:mt-6 md:pt-3">{`Price: ${album.price}`}</Label>
+        <Label className="leading-tight md:leading-normal text-center text-xs font-extralight max-w-sm">{`${album.rights}`}</Label>
       </div>
     </div>
   );

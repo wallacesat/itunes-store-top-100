@@ -19,6 +19,7 @@ import AlbumNotFound from '~/components/AlbumNotFound';
 import LottieNotFound from '~/components/LottieNotFound';
 import BgImage from '~/components/BgImage';
 import useSortAlbums from '~/hooks/useSorteAlbums';
+import ModalWrapper from '~/components/Modal';
 
 const Home: React.FC = () => {
   const { albuns, isFetched } = useAlbums();
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
   const { searchAlbum } = useSearchAlbum();
   const { sortAlbuns, sortedAlbumsInfo } = useSortAlbums();
 
+  const [isVisibleMobileModal, setIsVisibleMobileModal] = React.useState(false);
   const [searchAlbumsQuery, setSearchAlbumQuery] = React.useState('');
   const [showFavorites, setShowFavorites] = React.useState(false);
   const [albumsList, setAlmbumsList] = React.useState<ItunesStoreTop100Data[]>(
@@ -73,6 +75,7 @@ const Home: React.FC = () => {
 
   function handleClickAlbum(id: string) {
     setAlbumInEvidence(find(albuns, album => album.id === id));
+    setIsVisibleMobileModal(true);
   }
 
   function handleSortByAlbum() {
@@ -91,15 +94,35 @@ const Home: React.FC = () => {
       <BgImage />
 
       <AlbunEvidenceSection>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           {(showFavorites || searchAlbumsQuery) && !albumsList.length ? (
-            <LottieNotFound />
+            <div className="hidden md:flex">
+              <LottieNotFound />
+            </div>
           ) : (
-            <AlbumInEvidence
-              album={albumInEvidence}
-              handleClickFavorite={handleClickFavorite}
-              isFavorite={isFavorite((albumInEvidence || {}).id)}
-            />
+            <>
+              <div className="hidden md:flex">
+                <AlbumInEvidence
+                  album={albumInEvidence}
+                  handleClickFavorite={handleClickFavorite}
+                  isFavorite={isFavorite((albumInEvidence || {}).id)}
+                />
+              </div>
+              <div className="flex md:hidden">
+                <ModalWrapper
+                  visible={isVisibleMobileModal}
+                  handleCloseModal={() => setIsVisibleMobileModal(false)}
+                >
+                  <div className="px-2 sm:px-6 flex items-center justify-center">
+                    <AlbumInEvidence
+                      album={albumInEvidence}
+                      handleClickFavorite={handleClickFavorite}
+                      isFavorite={isFavorite((albumInEvidence || {}).id)}
+                    />
+                  </div>
+                </ModalWrapper>
+              </div>
+            </>
           )}
         </div>
       </AlbunEvidenceSection>
@@ -132,6 +155,11 @@ const Home: React.FC = () => {
                       : 'Album not found...'
                   }
                 />
+              )}
+              {(showFavorites || searchAlbumsQuery) && !albumsList.length && (
+                <div className="flex flex-1 justify-center md:hidden">
+                  <LottieNotFound />
+                </div>
               )}
               <div className="album-list">
                 {map(albumsList, album => {
