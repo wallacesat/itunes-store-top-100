@@ -12,11 +12,11 @@ import MainPage from '~/components/MainPage';
 import AlbunEvidenceSection from '~/components/AlbunEvidenceSection';
 import AlbumListSection from '~/components/AlbumListSection';
 import AlbumList from '~/components/AlbumList';
-import { useStorage } from '~/contexts/StorageContext';
+import { useAlbums } from '~/contexts/AlbumsContext';
 import useFavorites from '~/hooks/useFavorites';
 
 const Home: React.FC = () => {
-  const { albuns, isFetched, sortedAlbumsInfo, sortAlbuns } = useStorage();
+  const { albuns, isFetched, sortedAlbumsInfo, sortAlbuns } = useAlbums();
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   const [

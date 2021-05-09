@@ -6,18 +6,16 @@ import { sortBy, reverse } from 'lodash';
 import useItunesStoreTop100 from '~/hooks/useItunesStoreTop100';
 import { ItunesStoreTop100Data } from '~/service/itunesStore/types';
 
-import { SortAlbuns, StorageContextProps, StorageProviderProps } from './types';
+import { SortAlbuns, AlbumsContextProps, AlbumsProviderProps } from './types';
 
-export const StorageContext = React.createContext<StorageContextProps>(
-  {} as StorageContextProps,
+export const AlbumsContext = React.createContext<AlbumsContextProps>(
+  {} as AlbumsContextProps,
 );
 
-export const useStorage = (): StorageContextProps =>
-  React.useContext(StorageContext);
+export const useAlbums = (): AlbumsContextProps =>
+  React.useContext(AlbumsContext);
 
-export function StorageProvider(
-  props: StorageProviderProps,
-): React.ReactElement {
+export function AlbumsProvider(props: AlbumsProviderProps): React.ReactElement {
   const { children } = props;
 
   const { isFetching, isFetched, data } = useItunesStoreTop100();
@@ -48,7 +46,7 @@ export function StorageProvider(
   }, [isFetched, data]);
 
   return (
-    <StorageContext.Provider
+    <AlbumsContext.Provider
       value={{
         albuns,
         isFetched,
@@ -58,6 +56,6 @@ export function StorageProvider(
       }}
     >
       {children}
-    </StorageContext.Provider>
+    </AlbumsContext.Provider>
   );
 }

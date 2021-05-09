@@ -8,7 +8,7 @@ export type SortAlbuns = (
   sortedBy?: 'album' | 'artist',
 ) => void;
 
-export interface StorageContextProps {
+export interface AlbumsContextProps {
   albuns: ItunesStoreTop100Data[];
   isFetched: boolean;
   isFetching: boolean;
@@ -19,6 +19,6 @@ export interface StorageContextProps {
   sortAlbuns: SortAlbuns;
 }
 
-export type StorageProviderProps = {
+export type AlbumsProviderProps = {
   children: ReactNode;
 };

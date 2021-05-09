@@ -5,17 +5,17 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import 'tailwindcss/tailwind.css';
 
 import GlobalStyle from '~/styles/global';
-import { StorageProvider } from '~/contexts/StorageContext';
+import { AlbumsProvider } from '~/contexts/AlbumsContext';
 
 const queryClient = new QueryClient();
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <StorageProvider>
+      <AlbumsProvider>
         <GlobalStyle />
         <Component {...pageProps} />
-      </StorageProvider>
+      </AlbumsProvider>
     </QueryClientProvider>
   );
 };
