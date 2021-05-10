@@ -6,7 +6,7 @@ const BgImage: React.FC = () => {
       <img
         className="object-cover w-full h-full"
         src="/images/bg_image.png"
-        alt=""
+        alt="background_image"
       />
     </div>
   );
