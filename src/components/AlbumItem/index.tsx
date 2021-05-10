@@ -63,7 +63,7 @@ const AlbumItem: React.FC<AlbumItemProps> = ({
           {album.name}
         </LabelLink>
       </div>
-      <div className="flex flex-1 justify-between">
+      <div className="flex sm:flex-1 justify-between">
         <div className="hidden sm:flex">
           <LabelLink
             hoverColor="#1068DB"

@@ -5,7 +5,7 @@ const BgImage: React.FC = () => {
     <div className="absolute w-full h-full z-0">
       <img
         className="object-cover w-full h-full"
-        src="/images/bg_image.png"
+        src="/images/bg_image_2.png"
         alt="background_image"
       />
     </div>
