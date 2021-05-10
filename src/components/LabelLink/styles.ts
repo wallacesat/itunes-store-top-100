@@ -10,7 +10,6 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     position: relative;
     text-transform: lowercase;
     outline: none !important;
-    text-align: left;
 
     &:hover {
       color: ${props => props.hoverColor || '#D2D2D2'};
