@@ -9,7 +9,7 @@ const Label: React.FC<LabelProps> = ({
 }) => {
   return (
     <p
-      className={`text-sm ${className} ${
+      className={`text-sm ${className || ''} ${
         !textColorClass ? 'text-neutral-medium' : textColorClass
       }`}
     >

@@ -21,18 +21,18 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
         onClick={() => onClick()}
         className={`appearance-none flex bg-info rounded-full py-1 ${
           icon ? 'pl-2 pr-4' : 'px-3'
-        } items-center cursor-pointer focus:outline-none ${buttonClass}`}
+        } items-center cursor-pointer focus:outline-none ${buttonClass || ''}`}
       >
         {icon && (
           <div>
             <FontAwesomeIcon
               icon={icon}
               size={iconSize}
-              className={`text-neutral-light mr-3 ${iconClass}`}
+              className={`text-neutral-light mr-3 ${iconClass || ''}`}
             />
           </div>
         )}
-        <Label className={labelClass}>{label}</Label>
+        <Label className={labelClass || ''}>{label}</Label>
       </button>
     </ButtonWrapper>
   );

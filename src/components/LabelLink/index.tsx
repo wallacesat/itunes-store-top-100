@@ -15,7 +15,7 @@ const LabelLink: React.FC<LabelLinkProps> = ({
       <button
         type="button"
         onClick={() => onClick()}
-        className={`appearance-none text-sm ${className} ${
+        className={`appearance-none text-sm ${className || ''} ${
           !textColorClass ? 'text-neutral-medium' : textColorClass
         } focus:outline-none`}
       >
