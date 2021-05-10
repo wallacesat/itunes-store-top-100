@@ -58,6 +58,7 @@ const AlbumItem: React.FC<AlbumItemProps> = ({
         <LabelLink
           hoverColor="#1068DB"
           onClick={() => handleOpenExternalLink(album.link)}
+          className="text-left"
         >
           {album.name}
         </LabelLink>
@@ -67,6 +68,7 @@ const AlbumItem: React.FC<AlbumItemProps> = ({
           <LabelLink
             hoverColor="#1068DB"
             onClick={() => handleOpenExternalLink(album.artist.link)}
+            className="text-left"
           >
             {album.artist.name}
           </LabelLink>
