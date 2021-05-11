@@ -17,6 +17,7 @@ const AlbumItemSorter: React.FC<AlbumItemSorterProps> = ({
   return (
     <div className="bg-primary-medium flex pl-36 md:pl-32 py-1">
       <button
+        data-testid="button-sort-by-album-testid"
         type="button"
         className="flex-1 ml-2 outline-none focus:outline-none text-left "
         onClick={handleSortByAlbum}
@@ -33,6 +34,7 @@ const AlbumItemSorter: React.FC<AlbumItemSorterProps> = ({
         </div>
       </button>
       <button
+        data-testid="button-sort-by-artist-testid"
         type="button"
         className="hidden md:flex flex-1 -ml-6 outline-none focus:outline-none text-left"
         onClick={handleSortByArtist}

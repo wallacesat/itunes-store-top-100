@@ -132,6 +132,7 @@ const Home: React.FC = () => {
             <SearchBar
               text={searchAlbumsQuery}
               onChangeText={setSearchAlbumQuery}
+              onClear={() => setSearchAlbumQuery('')}
             />
             <AlbumListHeader
               isShowingFavorites={showFavorites}
